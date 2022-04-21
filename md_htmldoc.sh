@@ -26,7 +26,7 @@ for i in ${PARENT_REPO_CACHED_FILES[@]} ; do
         printf "    %35s" "$FROM"
         printf "  --mkdir-->"
         printf "    %35s\n" "$TO"
-        mkdir -p "$TO"
+        cp -r "$FROM" "$TO"
     fi
 done
 
@@ -46,13 +46,13 @@ for i in "${DOC_RELEVANT[@]}" ; do
         printf "    %35s" $FROM
         printf " --pandoc--> "
         printf "%-35s\n" ${TO/\.md/.html}
-        pandoc -s "$FROM" --mathjax --filter link_filter.py -o "${TO/\.md/.html}"
+        pandoc -s "$FROM" --katex --resource-path=.:$XDG_DATA_HOME/pandoc --filter pandoc-crossref --citeproc --filter link_filter.py --standalone --template=easy_template.html -o "${TO/\.md/.html}"
     else
         # copy hyperlinked files
         printf "    %35s" $FROM
         printf " ----cp----> "
         printf "%-35s\n" $TO
-        cp "$FROM" "$TO"
+        cp -r "$FROM" "$TO"
     fi
 done
 
