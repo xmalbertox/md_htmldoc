@@ -46,7 +46,7 @@ for i in "${DOC_RELEVANT[@]}" ; do
         printf "    %35s" $FROM
         printf " --pandoc--> "
         printf "%-35s\n" ${TO/\.md/.html}
-        pandoc -s "$FROM" --resource-path=.:$XDG_DATA_HOME/pandoc --filter pandoc-crossref --citeproc --filter link_filter.py --mathjax --standalone --template=easy_template.html -H header.html -o "${TO/\.md/.html}"
+        pandoc --standalone --self-contained "$FROM" --resource-path=.:$XDG_DATA_HOME/pandoc --filter pandoc-crossref --citeproc --filter link_filter.py --mathjax --template=easy_template.html -H header.html -o "${TO/\.md/.html}"
     else
         # copy hyperlinked files
         printf "    %35s" $FROM
